@@ -1,0 +1,473 @@
+<title>Kansrijk Onderwijs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --paper:#F3EFDE;
+    --surface:#EAE3C8;
+    --ink:#20302B;
+    --ink-soft:#4C5C51;
+    --accent:#C97A1F;
+    --accent-deep:#9C5B12;
+    --line:rgba(32,48,43,0.16);
+    --chalk:#1F3D34;
+    --chalk-line:rgba(237,230,211,0.22);
+    --chalk-ink:#EDE4CE;
+    --chalk-ink-soft:#B9C7BC;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#172620;
+      --surface:#1E322A;
+      --ink:#EDE6D3;
+      --ink-soft:#B7C1B7;
+      --accent:#E8A23D;
+      --accent-deep:#F2B65C;
+      --line:rgba(237,230,211,0.16);
+      --chalk:#0F1D18;
+      --chalk-line:rgba(237,230,211,0.16);
+      --chalk-ink:#EDE4CE;
+      --chalk-ink-soft:#9FAD9F;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#172620;
+    --surface:#1E322A;
+    --ink:#EDE6D3;
+    --ink-soft:#B7C1B7;
+    --accent:#E8A23D;
+    --accent-deep:#F2B65C;
+    --line:rgba(237,230,211,0.16);
+    --chalk:#0F1D18;
+    --chalk-line:rgba(237,230,211,0.16);
+    --chalk-ink:#EDE4CE;
+    --chalk-ink-soft:#9FAD9F;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Karla',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-size:1.125rem;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;}
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  .skip-link{
+    position:absolute;
+    left:1rem; top:-3rem;
+    background:var(--accent);
+    color:#1B1204;
+    padding:.6rem 1rem;
+    border-radius:.3rem;
+    font-family:'Karla',sans-serif;
+    font-weight:700;
+    text-decoration:none;
+    transition:top .2s ease;
+    z-index:100;
+  }
+  .skip-link:focus{ top:1rem; }
+
+  h1,h2,h3{
+    font-family:'Fraunces',Georgia,serif;
+    font-weight:600;
+    text-wrap:balance;
+    margin:0;
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:.5em;
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:.78rem;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+  }
+  :root[data-theme="dark"] .eyebrow,
+  @media (prefers-color-scheme: dark){ }
+  .eyebrow::before{
+    content:"";
+    width:1.6em; height:1px;
+    background:currentColor;
+    opacity:.6;
+  }
+
+  .measure{ max-width:38rem; }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.1rem clamp(1.25rem,5vw,3rem);
+    background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .wordmark{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:1.15rem;
+    letter-spacing:.01em;
+  }
+  .header-cta{
+    font-family:'Karla',sans-serif;
+    font-weight:700;
+    font-size:.95rem;
+    text-decoration:none;
+    border-bottom:1.5px solid var(--accent);
+    padding-bottom:2px;
+  }
+  .header-cta:hover{ color:var(--accent-deep); border-color:var(--accent-deep); }
+
+  /* ---------- Sections ---------- */
+  section, footer.band{
+    padding:clamp(4rem,9vw,7.5rem) clamp(1.25rem,6vw,3rem);
+  }
+  .band-surface{ background:var(--surface); }
+  .band-chalk{
+    background:var(--chalk);
+    color:var(--chalk-ink);
+  }
+
+  .wrap{
+    max-width:64rem;
+    margin:0 auto;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    overflow:clip;
+    padding-top:clamp(4.5rem,11vw,8rem);
+    padding-bottom:clamp(4rem,9vw,7rem);
+  }
+  .hero-blob{
+    position:absolute;
+    top:-12%; right:-8%;
+    width:min(46rem,70vw);
+    aspect-ratio:1;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70%);
+    pointer-events:none;
+    will-change:transform;
+  }
+  .hero-inner{ position:relative; max-width:44rem; }
+  .hero h1{
+    font-size:clamp(2.6rem,6.4vw,4.6rem);
+    line-height:1.04;
+    margin-top:.9rem;
+  }
+  .hero .underline{ display:block; margin:.35em 0 0; width:min(100%,20rem); }
+  .hero .underline svg{ width:100%; height:auto; display:block; }
+  .hero .underline path{ stroke:var(--accent); }
+
+  .tagline{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.2rem,2.6vw,1.5rem);
+    color:var(--ink-soft);
+    margin-top:1.4rem;
+    max-width:34rem;
+  }
+  .hero-sub{
+    margin-top:1.6rem;
+    color:var(--ink-soft);
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:.6em;
+    margin-top:2.2rem;
+    padding:.85rem 1.5rem;
+    background:var(--accent);
+    color:#1B1204;
+    font-family:'Karla',sans-serif;
+    font-weight:700;
+    text-decoration:none;
+    border-radius:.35rem;
+    transition:background .18s ease, transform .18s ease;
+  }
+  .btn:hover{ background:var(--accent-deep); transform:translateY(-1px); }
+  .btn-ghost{
+    background:transparent;
+    color:var(--chalk-ink);
+    border:1.5px solid var(--chalk-line);
+  }
+  .btn-ghost:hover{ background:rgba(237,230,211,.08); border-color:var(--chalk-ink); }
+
+  /* ---------- Over ---------- */
+  #over .wrap{ display:grid; gap:clamp(2rem,5vw,4rem); grid-template-columns:1fr; }
+  @media (min-width:52rem){
+    #over .wrap{ grid-template-columns: 16rem 1fr; align-items:start; }
+  }
+  #over h2{ font-size:clamp(1.7rem,3vw,2.15rem); }
+  #over p + p{ margin-top:1.1em; }
+  .signature{
+    margin-top:1.6rem;
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:1.2rem;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- Diensten ---------- */
+  .service-list{
+    margin-top:2.5rem;
+    border-top:1px solid var(--line);
+  }
+  .service{
+    display:grid;
+    grid-template-columns:6rem 1fr;
+    gap:1.5rem;
+    padding:1.6rem 0;
+    border-bottom:1px solid var(--line);
+    align-items:baseline;
+  }
+  .service-mark{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.85rem;
+    color:var(--accent-deep);
+    letter-spacing:.06em;
+  }
+  .service h3{
+    font-size:1.2rem;
+    font-weight:600;
+  }
+  .service p{ margin:.5rem 0 0; color:var(--ink-soft); }
+
+  /* ---------- Werkwijze ---------- */
+  .steps{
+    margin-top:2.5rem;
+    display:grid;
+    gap:2.2rem;
+  }
+  @media (min-width:52rem){
+    .steps{ grid-template-columns:repeat(3,1fr); gap:2.5rem; }
+  }
+  .step-num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.85rem;
+    font-weight:600;
+    color:var(--accent-deep);
+    letter-spacing:.06em;
+  }
+  .step h3{ font-size:1.15rem; margin-top:.6rem; }
+  .step p{ margin-top:.5rem; color:var(--ink-soft); }
+
+  /* ---------- Contact ---------- */
+  #contact h2{ color:var(--chalk-ink); font-size:clamp(1.9rem,3.6vw,2.6rem); }
+  #contact .tagline{ color:var(--chalk-ink-soft); }
+  .contact-mail{
+    display:inline-block;
+    margin-top:1.8rem;
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(1.3rem,3vw,1.8rem);
+    color:var(--chalk-ink);
+    text-decoration:none;
+    border-bottom:2px solid var(--accent);
+    padding-bottom:.15em;
+  }
+  .contact-mail:hover{ color:var(--accent); }
+  .contact-actions{ margin-top:2.2rem; display:flex; flex-wrap:wrap; gap:1rem; }
+  .contact-note{ margin-top:2rem; color:var(--chalk-ink-soft); font-size:.98rem; max-width:32rem; }
+
+  /* ---------- Footer ---------- */
+  footer.band{
+    padding-top:2.2rem; padding-bottom:2.2rem;
+    display:flex; flex-wrap:wrap; gap:.6rem 1.5rem;
+    align-items:center; justify-content:space-between;
+    border-top:1px solid var(--chalk-line);
+    font-size:.9rem;
+    color:var(--chalk-ink-soft);
+  }
+  footer.band a{ text-decoration:none; border-bottom:1px solid transparent; }
+  footer.band a:hover{ border-color:var(--chalk-ink-soft); }
+
+  /* ---------- Reveal-on-scroll (progressive enhancement) ---------- */
+  body.js-reveal .reveal-target{
+    opacity:.4;
+    transform:translateY(18px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  body.js-reveal .reveal-target.is-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce){
+    body.js-reveal .reveal-target{ opacity:1; transform:none; transition:none; }
+  }
+</style>
+
+<a class="skip-link" href="#main">Naar inhoud</a>
+
+<header>
+  <span class="wordmark">Kansrijk&nbsp;Onderwijs</span>
+  <a class="header-cta" href="#contact">Neem contact op</a>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="intro">
+    <div class="hero-blob" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <span class="eyebrow">Onderwijsadvies · Ad Goenee</span>
+      <h1>Kansrijk<br>Onderwijs</h1>
+      <span class="underline" aria-hidden="true">
+        <svg viewBox="0 0 300 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 12C40 2 70 2 100 10C130 18 160 4 200 8C230 11 260 15 298 6" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <p class="tagline">Gelijke kansen ontstaan niet vanzelf — ze worden georganiseerd.</p>
+      <p class="hero-sub measure">Ad Goenee adviseert schoolleiders, bestuurders en teams die kansengelijkheid, schooladvies en onderwijsbeleid serieus willen aanpakken. Onafhankelijk, ter zake kundig, dicht op de praktijk.</p>
+      <a class="btn" href="#contact">Stuur een bericht</a>
+    </div>
+  </section>
+
+  <section id="over" class="band-surface reveal-target">
+    <div class="wrap">
+      <span class="eyebrow">Over</span>
+      <h2 style="margin-top:.7rem;">Ad Goenee</h2>
+      <div class="measure" style="margin-top:0;">
+        <p>Ad Goenee is freelance onderwijsadviseur. Hij ondersteunt scholen en schoolbesturen bij vraagstukken die er echt toe doen: hoe zorg je dat het schooladvies in groep 8 recht doet aan wat een kind kan, en niet aan waar het toevallig vandaan komt? Hoe vertaal je kansengelijkheid van beleidstaal naar iets dat in de klas merkbaar is?</p>
+        <p>De aanpak is nuchter en praktijkgericht: eerst goed luisteren naar wat er speelt op een school of bij een bestuur, dan pas adviseren. Geen dikke rapporten die in een la verdwijnen, maar concrete stappen waar een team mee verder kan.</p>
+        <p class="signature">— Ad Goenee</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="diensten" class="reveal-target">
+    <div class="wrap">
+      <span class="eyebrow">Diensten</span>
+      <h2 style="margin-top:.7rem;">Waarmee kan ik helpen</h2>
+      <div class="service-list">
+        <div class="service">
+          <span class="service-mark">01 / ADV</span>
+          <div>
+            <h3>Onderwijsadvies &amp; beleidsontwikkeling</h3>
+            <p>Van visie naar uitvoerbaar beleid, toegespitst op de school of het bestuur waar het voor bedoeld is.</p>
+          </div>
+        </div>
+        <div class="service">
+          <span class="service-mark">02 / KGL</span>
+          <div>
+            <h3>Kansengelijkheid &amp; schooladvies</h3>
+            <p>Onderzoek en advies rond een eerlijk, onderbouwd schooladvies en de overgang naar het voortgezet onderwijs.</p>
+          </div>
+        </div>
+        <div class="service">
+          <span class="service-mark">03 / LDR</span>
+          <div>
+            <h3>Coaching schoolleiders &amp; bestuurders</h3>
+            <p>Persoonlijke begeleiding bij lastige vraagstukken, van teamdynamiek tot strategische keuzes.</p>
+          </div>
+        </div>
+        <div class="service">
+          <span class="service-mark">04 / INT</span>
+          <div>
+            <h3>Interim- &amp; projectondersteuning</h3>
+            <p>Tijdelijke versterking wanneer een school of bestuur er even bovenop moet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="werkwijze" class="band-surface reveal-target">
+    <div class="wrap">
+      <span class="eyebrow">Werkwijze</span>
+      <h2 style="margin-top:.7rem;">Hoe een traject verloopt</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">Stap 01</span>
+          <h3>Kennismaking</h3>
+          <p>Een vrijblijvend gesprek over wat er speelt en of we bij elkaar passen.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">Stap 02</span>
+          <h3>Analyse</h3>
+          <p>Ik verdiep me in de situatie ter plekke, samen met de mensen die het dagelijks meemaken.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">Stap 03</span>
+          <h3>Aan de slag</h3>
+          <p>Een helder, haalbaar plan — en waar gewenst blijf ik betrokken bij de uitvoering.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="band-chalk reveal-target">
+    <div class="wrap">
+      <span class="eyebrow">Contact</span>
+      <h2 style="margin-top:.7rem;">Laten we kennismaken</h2>
+      <p class="tagline">Een school of bestuur dat serieus werk wil maken van kansrijk onderwijs — daar denk ik graag in mee.</p>
+      <a class="contact-mail" href="mailto:info@kansrijkonderwijs.nu">info@kansrijkonderwijs.nu</a>
+      <div class="contact-actions">
+        <a class="btn" href="mailto:info@kansrijkonderwijs.nu">Stuur een bericht</a>
+      </div>
+      <p class="contact-note">Reageert doorgaans binnen enkele werkdagen — ook voor een eerste, vrijblijvend gesprek.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="band-chalk band">
+  <span>© 2026 Kansrijk Onderwijs — Ad Goenee</span>
+  <a href="mailto:info@kansrijkonderwijs.nu">info@kansrijkonderwijs.nu</a>
+</footer>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if(!reduceMotion && 'IntersectionObserver' in window){
+    document.body.classList.add('js-reveal');
+    var targets = document.querySelectorAll('.reveal-target');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(function(t){ io.observe(t); });
+  }
+
+  if(!reduceMotion){
+    var blob = document.querySelector('.hero-blob');
+    if(blob){
+      var ticking = false;
+      window.addEventListener('scroll', function(){
+        if(!ticking){
+          window.requestAnimationFrame(function(){
+            var y = window.scrollY || 0;
+            blob.style.transform = 'translateY(' + (y * 0.12) + 'px)';
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    }
+  }
+})();
+</script>
