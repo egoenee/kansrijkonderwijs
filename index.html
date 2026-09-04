@@ -53,6 +53,7 @@
   @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
 
   body{
+    position:relative;
     margin:0;
     width:100%;
     max-width:100%;
@@ -66,16 +67,18 @@
     padding-bottom:env(safe-area-inset-bottom);
   }
 
-  /* ---------- the board itself: light falloff, vignette, slate grain ---------- */
+  /* ---------- the board itself: scrolls with the page, so the chalk sits on it ---------- */
   .board-surface{
-    position:fixed; inset:0; z-index:-1;
+    position:absolute; inset:0; z-index:0;
     pointer-events:none;
+    overflow:hidden;
     background-color:var(--slate);
     background-image:
-      radial-gradient(120% 70% at 50% 8%, rgba(255,255,255,.055), transparent 62%),
-      radial-gradient(90% 60% at 12% 78%, rgba(255,255,255,.03), transparent 60%),
-      radial-gradient(140% 110% at 50% 50%, transparent 38%, rgba(0,0,0,.5) 100%);
+      radial-gradient(90% 22% at 50% 3%, rgba(255,255,255,.06), transparent 60%),
+      radial-gradient(70% 18% at 12% 46%, rgba(255,255,255,.03), transparent 60%),
+      radial-gradient(120% 60% at 50% 50%, transparent 45%, rgba(0,0,0,.42) 100%);
   }
+  header, main, footer, .tray{ position:relative; z-index:1; }
   .board-surface::after{
     content:"";
     position:absolute; inset:0;
@@ -98,18 +101,6 @@
   .chalk{
     color:var(--chalk);
     text-shadow:0 0 1px rgba(var(--chalk-rgb),.25), 0 1px 12px rgba(var(--chalk-rgb),.10);
-  }
-  /* powdery, broken coverage — only where background-clip:text is supported */
-  @supports ((-webkit-background-clip:text) or (background-clip:text)){
-    .chalk-rough{
-      color:transparent;
-      background-image:var(--chalkgrain), linear-gradient(rgba(var(--chalk-rgb),.92), rgba(var(--chalk-rgb),.78));
-      background-size:140px 140px, 100% 100%;
-      background-blend-mode:overlay;
-      -webkit-background-clip:text;
-      background-clip:text;
-      text-shadow:0 0 14px rgba(var(--chalk-rgb),.13);
-    }
   }
 
   a{ color:inherit; }
@@ -173,6 +164,8 @@
     font-size:clamp(2.9rem,13vw,5rem);
     line-height:1.0;
     letter-spacing:.01em;
+    color:#F5F0E4;
+    text-shadow:0 0 1px rgba(var(--chalk-rgb),.4), 0 2px 16px rgba(var(--chalk-rgb),.12);
   }
   .hero-title span{ display:block; }
   .hero-title .l1{ transform:rotate(-1.8deg); transform-origin:left center; }
@@ -374,7 +367,7 @@
     <span class="dust" style="left:56%; top:62%; animation-delay:4.6s;" aria-hidden="true"></span>
     <div class="shell">
       <span class="label">Onderwijsadvies · Ad Goenee</span>
-      <h1 class="hero-title chalk chalk-rough">
+      <h1 class="hero-title">
         <span class="l1">Kansrijk</span>
         <span class="l2">Onderwijs</span>
       </h1>
@@ -389,6 +382,8 @@
       <a class="btn" href="#contact">Stuur een bericht</a>
     </div>
   </section>
+
+  <div class="tray" aria-hidden="true"></div>
 
   <section class="reveal">
     <div class="shell">
@@ -485,8 +480,6 @@
   </section>
 
 </main>
-
-<div class="tray" aria-hidden="true"></div>
 
 <footer>
   <span>Kansrijk Onderwijs — Ad Goenee</span>
