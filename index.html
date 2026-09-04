@@ -189,12 +189,12 @@
 
 
   .slogan{
-    font-family:'Caveat','Bradley Hand','Segoe Script',cursive; font-weight:700;
-    font-size:clamp(1.7rem,7.5vw,2.4rem);
-    line-height:1.25;
+    font-family:'Karla',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700;
+    font-size:clamp(1.5rem,6.4vw,2.05rem);
+    line-height:1.25; letter-spacing:-.005em;
     color:var(--accent);
     margin:1.35rem 0 0;
-    text-shadow:0 0 12px rgba(253,204,94,.16);
+    text-shadow:0 0 12px rgba(253,204,94,.14);
   }
   .lede{ margin:1.25rem 0 0; color:var(--chalk); }
   .lede.dim{ color:var(--chalk-dim); }
@@ -250,11 +250,10 @@
     transform:rotate(-2.5deg);
   }
   .note .label{ color:#9A6A1E; }
-  .note h2{
-    font-family:'Karla',sans-serif; font-weight:700;
-    font-size:1.55rem; line-height:1.25; color:var(--paper-ink);
-  }
   .note p{ margin:1rem 0 0; color:var(--paper-ink-dim); }
+  .note-body p:first-child{ margin-top:.35rem; }
+  .tw{ opacity:0; }
+  .tw.on{ opacity:1; }
   .note .sign{
     font-family:'Caveat','Bradley Hand','Segoe Script',cursive; font-weight:700;
     font-size:1.7rem; color:#8A5E14; margin-top:1.25rem;
@@ -296,9 +295,9 @@
   /* ---------- contact ---------- */
   .mail{
     display:inline-block; margin-top:1.4rem;
-    font-family:'Caveat','Bradley Hand','Segoe Script',cursive; font-weight:700;
-    font-size:clamp(1.6rem,7vw,2.1rem);
-    line-height:1.2;
+    font-family:'Karla',system-ui,-apple-system,'Segoe UI',sans-serif; font-weight:700;
+    font-size:clamp(1.15rem,5.2vw,1.5rem);
+    line-height:1.3;
     color:var(--chalk);
     text-decoration:none;
     border-bottom:2px solid var(--accent-dim);
@@ -310,24 +309,26 @@
   /* ---------- chalk tray ---------- */
   .tray{
     position:relative;
-    height:1.9rem;
+    height:2.1rem;
     background:linear-gradient(180deg, var(--wood-hi) 0%, var(--wood) 38%, var(--wood-lo) 100%);
     box-shadow:0 -10px 22px -14px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.18);
   }
   .tray::before{
     content:"";
-    position:absolute; left:12%; top:.42rem;
-    width:3.6rem; height:.62rem; border-radius:.32rem;
+    position:absolute; left:12%; top:.74rem;
+    width:4.4rem; height:.78rem; border-radius:.4rem;
     background:linear-gradient(180deg, rgba(var(--chalk-rgb),.95), rgba(var(--chalk-rgb),.68));
     transform:rotate(-1.5deg);
     box-shadow:0 2px 4px rgba(0,0,0,.35);
   }
   .tray::after{
     content:"";
-    position:absolute; right:16%; top:.34rem;
-    width:2.6rem; height:.85rem; border-radius:.12rem;
-    background:linear-gradient(180deg,#4A5A50 0 45%, #33403A 45% 100%);
-    box-shadow:0 2px 5px rgba(0,0,0,.4);
+    position:absolute; right:14%; top:-1.3rem;
+    width:7.4rem; height:2.5rem; border-radius:.2rem;
+    background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 3px, rgba(255,255,255,.014) 3px 10px),
+      linear-gradient(180deg,#66785F 0 12%, #56685B 12% 36%, #3E4D43 36% 58%, #2B372F 58% 100%);
+    box-shadow:0 7px 12px -5px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.18);
   }
 
   footer{
@@ -396,10 +397,11 @@
     <div class="shell">
       <div class="note">
         <span class="label">Over</span>
-        <h2>Ad Goenee</h2>
+        <div class="note-body">
         <p>Ad Goenee is freelance onderwijsadviseur. Hij ondersteunt scholen en schoolbesturen bij vraagstukken die er echt toe doen: hoe zorg je dat het schooladvies in groep 8 recht doet aan wat een kind kan, en niet aan waar het toevallig vandaan komt?</p>
         <p>De aanpak is nuchter en praktijkgericht: eerst goed luisteren naar wat er speelt, dan pas adviseren. Geen dik rapport dat in een la verdwijnt, maar concrete stappen waar een team mee verder kan.</p>
         <p class="sign">— Ad Goenee</p>
+        </div>
       </div>
     </div>
   </section>
@@ -506,6 +508,40 @@
     });
   }, { threshold:0.12, rootMargin:'0px 0px -6% 0px' });
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  var note = document.querySelector('.note-body');
+  if(note){
+    var chars = [];
+    (function walk(el){
+      Array.prototype.slice.call(el.childNodes).forEach(function(n){
+        if(n.nodeType === 3){
+          var frag = document.createDocumentFragment();
+          n.nodeValue.split('').forEach(function(ch){
+            var sp = document.createElement('span');
+            sp.className = 'tw';
+            sp.textContent = ch;
+            frag.appendChild(sp);
+            chars.push(sp);
+          });
+          el.replaceChild(frag, n);
+        } else if(n.nodeType === 1){ walk(n); }
+      });
+    })(note);
+
+    var typed = 0, start = null, DUR = 3800;
+    function type(ts){
+      if(start === null) start = ts;
+      var want = Math.min(chars.length, Math.round((ts - start) / DUR * chars.length));
+      while(typed < want){ chars[typed++].classList.add('on'); }
+      if(typed < chars.length) requestAnimationFrame(type);
+    }
+    var io3 = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ io3.disconnect(); requestAnimationFrame(type); }
+      });
+    }, { threshold:0.2 });
+    io3.observe(note);
+  }
 
   var paths = document.querySelectorAll('path.draw');
   if(paths.length){
